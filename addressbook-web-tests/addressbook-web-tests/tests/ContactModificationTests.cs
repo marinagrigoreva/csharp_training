@@ -11,7 +11,7 @@ namespace WebAddressbookTests
     {
 
         [Test]
-        public void ContactCreationTest()
+        public void ContactModificationTest()
         {
 
             ContactData newData = new ContactData("Test");
