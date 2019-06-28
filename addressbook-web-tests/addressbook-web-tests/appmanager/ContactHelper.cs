@@ -25,31 +25,27 @@ namespace WebAddressbookTests
             FillContactForm(contact);
             SubmitContactCreation();
             manager.Navigator.GoToHomePage();
-            //     ReturnToHomePage();
             return this;
         }
 
-        public ContactHelper Modify(int v, ContactData newData, ContactData oldData)
-        {
-            IfContactNotPresent(oldData);
+        public ContactHelper Modify(int v, ContactData newData)
+        {            
             SelectContact(v);
             InitContactModification(v);
             FillContactForm(newData);
             SubmitContactModification();
             manager.Navigator.GoToHomePage();
-            //      ReturnToHomePage();
             return this;
         }
 
 
-        public ContactHelper Remove(int v, ContactData oldData)
+        public ContactHelper Remove(int v)
         {
-            IfContactNotPresent(oldData);
             SelectContact(v);
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
             manager.Navigator.GoToHomePage();
-     //       ReturnToHomePage();            
+          
             return this;
         }
 

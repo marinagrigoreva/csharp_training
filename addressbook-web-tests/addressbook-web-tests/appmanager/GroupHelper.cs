@@ -17,20 +17,18 @@ namespace WebAddressbookTests
             
         }
 
-        public GroupHelper Remove(int v, GroupData oldData)
+        public GroupHelper Remove(int v)
         {
             manager.Navigator.GoToGroupsPage();
-            IfGroupNotPresent(oldData);
             SelectGroup(v);
             RemoveGroup();
             ReturnToGroupsPage();
             return this;
         }
 
-        public GroupHelper Modify(int v, GroupData newData, GroupData oldData)
+        public GroupHelper Modify(int v, GroupData newData)
         {
-            manager.Navigator.GoToGroupsPage();
-            IfGroupNotPresent(oldData);           
+            manager.Navigator.GoToGroupsPage();                       
             SelectGroup(v);
             InitGroupModification();
             FillGroupForm(newData);
@@ -51,6 +49,7 @@ namespace WebAddressbookTests
 
         public GroupHelper IfGroupNotPresent(GroupData group)
         {
+            manager.Navigator.GoToGroupsPage();
             if (CheckPresentGroup()==false)
             {
                 Create(group);

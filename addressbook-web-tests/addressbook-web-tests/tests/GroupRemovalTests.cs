@@ -17,7 +17,9 @@ namespace WebAddressbookTests
             GroupData oldData = new GroupData("asd");
             oldData.Header = "asd";
             oldData.Footer = "dfg";
-            app.Groups.Remove(1, oldData);            
+
+            app.Groups.IfGroupNotPresent(oldData);
+            app.Groups.Remove(1);            
         }
     }
 }

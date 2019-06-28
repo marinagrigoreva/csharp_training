@@ -18,7 +18,10 @@ namespace WebAddressbookTests
             ContactData newData = new ContactData("Test");
             newData.Lastname = "Test";
 //            newData.Photo = "C:\\img\\1.png";
-            app.Contacts.Modify(1, newData, oldData);
+
+            app.Contacts.IfContactNotPresent(oldData);
+
+            app.Contacts.Modify(1, newData);
 
 
 

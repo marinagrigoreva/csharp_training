@@ -15,7 +15,10 @@ namespace WebAddressbookTests
         {
             ContactData oldData = new ContactData("Test123");
             oldData.Lastname = "Test123";
-            app.Contacts.Remove(1, oldData);
+
+            app.Contacts.IfContactNotPresent(oldData);
+
+            app.Contacts.Remove(1);
         }
     }
 }
