@@ -31,7 +31,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int v, ContactData newData, ContactData oldData)
         {
-            CheckPresentContact(oldData);
+            IfContactNotPresent(oldData);
             SelectContact(v);
             InitContactModification(v);
             FillContactForm(newData);
@@ -44,7 +44,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int v, ContactData oldData)
         {
-            CheckPresentContact(oldData);
+            IfContactNotPresent(oldData);
             SelectContact(v);
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
@@ -53,14 +53,24 @@ namespace WebAddressbookTests
             return this;
         }
 
-        private ContactHelper CheckPresentContact(ContactData oldData)
+
+        public ContactHelper IfContactNotPresent(ContactData oldData)
         {
-            if(!IsElementPresent(By.XPath("//tr[@name='entry'][1]//input[@name='selected[]']")))
+            if (CheckPresentContact()==false)
             {
                 Create(oldData);
             }
             return this;
         }
+
+        public bool CheckPresentContact()
+        {
+            return IsElementPresent(By.XPath("//tr[@name='entry'][1]//input[@name='selected[]']"));
+
+        }
+
+
+
 
         private ContactHelper ReturnToHomePage()
         {

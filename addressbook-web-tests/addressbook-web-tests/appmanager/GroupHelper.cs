@@ -20,7 +20,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int v, GroupData oldData)
         {
             manager.Navigator.GoToGroupsPage();
-            CheckPresentGroup(oldData);
+            IfGroupNotPresent(oldData);
             SelectGroup(v);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -30,7 +30,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int v, GroupData newData, GroupData oldData)
         {
             manager.Navigator.GoToGroupsPage();
-            CheckPresentGroup(oldData);            
+            IfGroupNotPresent(oldData);           
             SelectGroup(v);
             InitGroupModification();
             FillGroupForm(newData);
@@ -49,13 +49,19 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper CheckPresentGroup(GroupData group)
+        public GroupHelper IfGroupNotPresent(GroupData group)
         {
-            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
+            if (CheckPresentGroup()==false)
             {
                 Create(group);
             }
             return this;
+        }
+
+        public bool CheckPresentGroup()
+        {
+            return IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input"));
+
         }
 
         public GroupHelper ReturnToGroupsPage()

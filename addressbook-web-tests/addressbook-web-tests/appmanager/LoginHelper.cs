@@ -40,8 +40,9 @@ namespace WebAddressbookTests
         public bool IsLoggedIn(AccountData account)
         {
             return IsLoggedIn()
-                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
-                =="("+account.Username+")";
+       //         && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+       && IsElementPresent(By.XPath("//b[contains(.,'"+"("+account.Username+")"+"')]"));
+    //            =="("+account.Username+")";
 
         }
 
