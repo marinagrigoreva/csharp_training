@@ -25,7 +25,7 @@ namespace WebAddressbookTests
 
             List<GroupData> newGrops = app.Groups.GetGroupList();
 
-            oldGrops.RemoveAt(0);
+            oldGrops.RemoveAt(0); 
             Assert.AreEqual(oldGrops, newGrops);
         }
     }
