@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Diagnostics;
+using System.Threading;
 
 namespace WebAddressbookTests
 {
@@ -44,9 +46,26 @@ namespace WebAddressbookTests
             SelectContact(v);
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
+            Thread.Sleep(3000);
             manager.Navigator.GoToHomePage();
           
             return this;
+        }
+
+        public List<ContactData> GetContactDataList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tbody/tr[@name='entry']"));
+            for (int k=0; k < elements.Count; k++)
+            {
+                string firstname = elements.ElementAt(k).FindElement(By.XPath("./td[not(@class)][2]")).Text;
+                string lastname = elements.ElementAt(k).FindElement(By.XPath("./td[not(@class)][1]")).Text;
+
+                contacts.Add(new ContactData(firstname, lastname));
+                Debug.WriteLine(contacts[k].Firstname);
+                Debug.WriteLine(contacts[k].Lastname);
+            }
+            return contacts;
         }
 
 

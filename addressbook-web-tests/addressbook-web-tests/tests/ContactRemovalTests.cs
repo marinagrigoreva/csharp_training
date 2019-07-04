@@ -13,12 +13,20 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            ContactData oldData = new ContactData("Test123");
-            oldData.Lastname = "Test123";
+            ContactData oldData = new ContactData("Firstname", "Lastname");
+ //           oldData.Lastname = "Test123";
 
             app.Contacts.IfContactNotPresent(oldData);
 
+            List<ContactData> oldContacts = app.Contacts.GetContactDataList();
+
             app.Contacts.Remove(1);
+
+            List<ContactData> newContacts = app.Contacts.GetContactDataList();
+
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
+
         }
     }
 }

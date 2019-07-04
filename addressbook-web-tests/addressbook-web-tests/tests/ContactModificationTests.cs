@@ -13,21 +13,28 @@ namespace WebAddressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData oldData = new ContactData("Test123");
-            oldData.Lastname = "Test123";
-            ContactData newData = new ContactData("Test");
-            newData.Lastname = "Test";
-//            newData.Photo = "C:\\img\\1.png";
+            ContactData oldData = new ContactData("Firstname", "Lastname");
+            ContactData newData = new ContactData("NewFirstname", "NewLastname");
 
             app.Contacts.IfContactNotPresent(oldData);
 
+            List<ContactData> oldContacts = app.Contacts.GetContactDataList();
+
             app.Contacts.Modify(1, newData);
 
+            List<ContactData> newContacts = app.Contacts.GetContactDataList();
+
+            oldContacts[0].Firstname = newData.Firstname;
+            oldContacts[0].Lastname = newData.Lastname;
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
 
 
 
-            
-            
+
+
         }
     }
 }
