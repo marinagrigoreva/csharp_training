@@ -20,12 +20,14 @@ namespace WebAddressbookTests
 
             List<ContactData> oldContacts = app.Contacts.GetContactDataList();
 
-            app.Contacts.Remove(1);
+            app.Contacts.Remove(0);
 
             List<ContactData> newContacts = app.Contacts.GetContactDataList();
 
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
+
+            
 
         }
     }

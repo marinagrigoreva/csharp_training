@@ -18,15 +18,25 @@ namespace WebAddressbookTests
             oldData.Header = "asd";
             oldData.Footer = "dfg";
 
-            List<GroupData> oldGrops = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
+            
 
             app.Groups.IfGroupNotPresent(oldData);
             app.Groups.Remove(0);
 
-            List<GroupData> newGrops = app.Groups.GetGroupList();
+            Assert.AreEqual(oldGroups.Count - 1, app.GetGroupCount());
 
-            oldGrops.RemoveAt(0); 
-            Assert.AreEqual(oldGrops, newGrops);
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+
+            GroupData toBeRemoved = oldGroups[0];
+            oldGroups.RemoveAt(0); 
+            Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
         }
     }
 }

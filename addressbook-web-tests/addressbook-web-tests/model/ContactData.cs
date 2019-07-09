@@ -44,16 +44,32 @@ namespace WebAddressbookTests
             return "Firstname= " + Firstname + ", Lastname= " + Lastname ;
 
         }
-
         public int CompareTo(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
             {
                 return 1;
             }
-            return Firstname.CompareTo(other.Firstname)+Lastname.CompareTo(other.Lastname);
-            
+            if (Lastname.CompareTo(other.Lastname) == 0)
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
+            else
+            {
+                return Lastname.CompareTo(other.Lastname);
+            } 
+
         }
+
+        /*       public int CompareTo(ContactData other)
+               {
+                   if (Object.ReferenceEquals(other, null))
+                   {
+                       return 1;
+                   }
+                   return Firstname.CompareTo(other.Firstname)+Lastname.CompareTo(other.Lastname);
+
+               } */
 
         public string Firstname
         {

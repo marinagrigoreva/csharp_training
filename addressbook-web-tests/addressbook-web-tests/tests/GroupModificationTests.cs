@@ -25,15 +25,25 @@ namespace WebAddressbookTests.tests
 
             app.Groups.IfGroupNotPresent(oldData);
 
-            List<GroupData> oldGrops = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            GroupData oldData1 = oldGroups[0];
 
             app.Groups.Modify(0, newData);
 
-            List<GroupData> newGrops = app.Groups.GetGroupList();
-            oldGrops[0].Name = newData.Name;
-            oldGrops.Sort();
-            newGrops.Sort();
-            Assert.AreEqual(oldGrops, newGrops);
+            Assert.AreEqual(oldGroups.Count, app.GetGroupCount());
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData1.Id)
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                }
+            }
 
         }
 

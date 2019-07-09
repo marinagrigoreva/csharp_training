@@ -23,6 +23,11 @@ namespace WebAddressbookTests
         protected ContactHelper contactHelper;
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
+        }
+
         private ApplicationManager()
         {
             driver = new FirefoxDriver();
