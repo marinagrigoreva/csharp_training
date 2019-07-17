@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    class ContactInformationTests : AuthTestBase
+    public class ContactInformationTests : AuthTestBase
     {
 
         [Test]
@@ -27,8 +27,22 @@ namespace WebAddressbookTests
         }
 
 
+        [Test]
+        public void TestContactInformationEditFormAndDetails()
+        {
+            ContactData fromDetails = app.Contacts.GetContactInformationFromDetails(0);
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
 
-
-
+            //verifications
+            Console.WriteLine(fromDetails.AllInfo);
+            Console.WriteLine(fromForm.AllInfo);
+            Console.WriteLine("111");
+            Assert.AreEqual(fromDetails.AllInfo, fromForm.AllInfo);
+ //           Assert.AreEqual(fromTable.Address, fromForm.Address);
+//            Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
+ //           Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
+
+
+    }
 }

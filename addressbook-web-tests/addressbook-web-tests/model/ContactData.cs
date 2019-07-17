@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTests
@@ -10,6 +12,8 @@ namespace WebAddressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allInfo;
+
 
         public ContactData(string firstname, string lastname)
         {
@@ -72,7 +76,15 @@ namespace WebAddressbookTests
 
         public string Firstname {get; set;}
 
+        public string Middlename { get; set; }
+
         public string Lastname {get; set;}
+
+        public string Nickname { get; set; }
+
+        public string Title { get; set; }
+
+        public string Company { get; set; }
 
         public string Address { get; set; }
 
@@ -82,11 +94,17 @@ namespace WebAddressbookTests
 
         public string WorkPhone { get; set; }
 
+        public string Fax { get; set; }
+
         public string Email { get; set; }
 
         public string Email2 { get; set; }
 
         public string Email3 { get; set; }
+
+        public string Homepage { get; set; }
+
+
 
 
         private string Cleanup(string phone)
@@ -95,8 +113,12 @@ namespace WebAddressbookTests
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-","").Replace("(","").Replace(")", "")+"\r\n";
+            return Regex.Replace(phone, "[ -()]", "") +"\r\n";
         }
+
+  
+
+
 
         public string AllPhones {
             get
@@ -116,6 +138,8 @@ namespace WebAddressbookTests
             }
         }
 
+
+
         public string AllEmails {
             get
             {
@@ -125,7 +149,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (Email + "\r\n" + Email2 + "\r\n" + Email3 + "\r\n").Trim();
+                    return (Cleanup(Email)  + Cleanup(Email2 ) + Cleanup(Email3)).Trim();
                 }
             }
             set
@@ -133,6 +157,33 @@ namespace WebAddressbookTests
                 allEmails = value;
             }
 
+        }
+
+
+
+
+
+        public string AllInfo
+        {
+            get
+            {
+               if(allInfo != null)
+                {
+                    return allInfo;
+                }else
+                {
+                    return Cleanup(Firstname) + Cleanup(Middlename)
+                        + Cleanup(Lastname) + Cleanup(Nickname) + Cleanup(Title) + Cleanup(Company) + Cleanup(Address)
+
+                        + Cleanup(HomePhone) + Cleanup(MobilePhone) + Cleanup(WorkPhone) + Cleanup(Fax)
+
+                       + Cleanup(Email) + Cleanup(Email2) + Cleanup(Email3) + Regex.Replace(Cleanup(Homepage), "http://", "");
+
+                }
+            }
+            set {
+                allInfo = Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(value, "Homepage:", ""), "F: ", ""), "W: ", ""), "M: ", ""), "H: ", ""), " ", "\r\n"), "\r\n\r\n", "\r\n")+ "\r\n";
+            }
         }
 
 
