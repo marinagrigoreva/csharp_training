@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using System.Diagnostics;
 
 namespace WebAddressbookTests
 {
-    class ContactRemovalTests : AuthTestBase
+    class ContactRemovalTests : GroupTestBase
     {
 
         [Test]
@@ -18,17 +19,27 @@ namespace WebAddressbookTests
 
             app.Contacts.IfContactNotPresent(oldData);
 
-            List<ContactData> oldContacts = app.Contacts.GetContactDataList();
+            List<ContactData> oldContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            ContactData toBeRemoved = oldContacts[0];
 
-            app.Contacts.Remove(0);
 
-            List<ContactData> newContacts = app.Contacts.GetContactDataList();
+            app.Contacts.Remove(toBeRemoved);
+
+            List<ContactData> newContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
 
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
 
-            
+            //неизвестно нужно ли это. перенесено из GroupRemovalTest
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
+
+
 
         }
+
+
     }
 }

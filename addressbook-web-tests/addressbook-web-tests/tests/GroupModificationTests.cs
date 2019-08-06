@@ -9,7 +9,7 @@ namespace WebAddressbookTests.tests
 {
 
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
 
         [Test]
@@ -25,21 +25,22 @@ namespace WebAddressbookTests.tests
 
             app.Groups.IfGroupNotPresent(oldData);
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData1 = oldGroups[0];
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeMod = oldGroups[0];
+      //      GroupData oldData1 = oldGroups[0];
 
-            app.Groups.Modify(0, newData);
+            app.Groups.Modify(toBeMod, newData);
 
             Assert.AreEqual(oldGroups.Count, app.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
             foreach (GroupData group in newGroups)
             {
-                if (group.Id == oldData1.Id)
+                if (group.Id == toBeMod.Id)
                 {
                     Assert.AreEqual(newData.Name, group.Name);
                 }

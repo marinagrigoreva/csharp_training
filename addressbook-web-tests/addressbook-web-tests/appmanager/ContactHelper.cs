@@ -41,6 +41,8 @@ namespace WebAddressbookTests
             };
         }
 
+
+
         public ContactData GetContactInformationFromDetails(int index)
         {
             manager.Navigator.GoToHomePage();
@@ -125,6 +127,17 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper Modify(ContactData toBeMod, ContactData newData)
+        {
+     //       SelectContact(toBeMod);
+            InitContactModification(toBeMod.Id);
+            FillContactForm(newData);
+            SubmitContactModification();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+
 
         public ContactHelper Remove(int v)
         {
@@ -135,6 +148,41 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
           
             return this;
+        }
+
+        internal ContactHelper Remove(ContactData toBeRemoved)
+        {
+            SelectContact(toBeRemoved.Id);
+            RemoveContact();
+            driver.SwitchTo().Alert().Accept();
+            Thread.Sleep(3000);
+            manager.Navigator.GoToHomePage();
+
+            return this;
+        }
+
+
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("//input[@name='selected[]' and @value='" + id + "']")).Click();
+            return this;
+        }
+
+        public List<ContactData> CleanRemovedContacts(List<ContactData> oldContacts)
+        {
+            int i = 0;
+            List<ContactData> oldContactsClean = new List<ContactData>();
+            while (i < oldContacts.Count)
+            {
+                if (oldContacts[i].Deprecated == "00.00.0000 0:00:00")
+                {
+                    oldContactsClean.Add(oldContacts[i]);
+                    Debug.WriteLine(oldContacts[i].Deprecated);
+                }
+                i++;
+            }
+            return oldContactsClean;
         }
 
         private List<ContactData> contactCache = null;
@@ -192,6 +240,12 @@ namespace WebAddressbookTests
         private ContactHelper InitContactModification(int v)
         {
             driver.FindElement(By.XPath("//tr[@name='entry'][" + (v + 1) + "]//img[@title='Edit']")).Click();
+            return this;
+        }
+
+        private ContactHelper InitContactModification(string toBeMod)
+        {
+            driver.FindElement(By.XPath("//input[contains(@id,'"+toBeMod+"')]/../..//img[@title='Edit']")).Click();
             return this;
         }
 

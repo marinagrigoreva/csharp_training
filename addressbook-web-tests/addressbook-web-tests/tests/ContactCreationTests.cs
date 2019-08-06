@@ -4,6 +4,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace WebAddressbookTests
 
@@ -40,23 +44,48 @@ namespace WebAddressbookTests
         }
 
 
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+                File.ReadAllText(@"contacts.json"));
 
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+        }
+
+
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {            
        //     ContactData contact = new ContactData("Firstname", "Lastname");
 
-            List<ContactData> oldContacts = app.Contacts.GetContactDataList();
+            List<ContactData> oldContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
 
             app.Contacts.Create(contact);
 
-            List<ContactData> newContacts = app.Contacts.GetContactDataList();
+            List<ContactData> newContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
 
             oldContacts.Add(contact); 
             oldContacts.Sort();
             newContacts.Sort();
 
             Assert.AreEqual(oldContacts, newContacts);
+        }
+
+
+
+        [Test]
+
+        public void TestDBConnectivityContact()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactData> fromUi = app.Contacts.GetContactDataList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<ContactData> fromDb = ContactData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }
