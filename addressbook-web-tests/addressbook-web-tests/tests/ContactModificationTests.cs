@@ -18,12 +18,12 @@ namespace WebAddressbookTests
 
             app.Contacts.IfContactNotPresent(oldData);
 
-            List<ContactData> oldContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData toBeMod = oldContacts[0];
 
             app.Contacts.Modify(toBeMod, newData);
 
-            List<ContactData> newContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> newContacts = ContactData.GetAll();
 
             oldContacts[0].Firstname = newData.Firstname;
             oldContacts[0].Lastname = newData.Lastname;

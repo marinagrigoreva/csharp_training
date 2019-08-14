@@ -58,11 +58,11 @@ namespace WebAddressbookTests
         {            
        //     ContactData contact = new ContactData("Firstname", "Lastname");
 
-            List<ContactData> oldContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             app.Contacts.Create(contact);
 
-            List<ContactData> newContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> newContacts = ContactData.GetAll();
 
             oldContacts.Add(contact); 
             oldContacts.Sort();

@@ -95,6 +95,8 @@
     <Compile Include="appmanager\ApplicationManager.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="model\AddressbookDB.cs" />
+    <Compile Include="model\GroupContactRelation.cs" />
+    <Compile Include="tests\AddingContactToGroupTests.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
     <Compile Include="model\ContactData.cs" />

@@ -19,13 +19,13 @@ namespace WebAddressbookTests
 
             app.Contacts.IfContactNotPresent(oldData);
 
-            List<ContactData> oldContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> oldContacts = ContactData.GetAll();
             ContactData toBeRemoved = oldContacts[0];
 
 
             app.Contacts.Remove(toBeRemoved);
 
-            List<ContactData> newContacts = app.Contacts.CleanRemovedContacts(ContactData.GetAll());
+            List<ContactData> newContacts = ContactData.GetAll();
 
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
