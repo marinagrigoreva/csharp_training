@@ -50,7 +50,7 @@ namespace test_tickets
         }
 
         /// <summary>
-        /// Выбрать указанное количество мест
+        /// Выбрать указанное количество мест и записать в коллекцию
         /// </summary>
         /// <param name="seat"></param>
         /// <returns></returns>
@@ -87,7 +87,7 @@ namespace test_tickets
         public void SelectTomorow()
         {
             driver.FindElement(By.XPath("//a[contains(.,'Завтра')]")).Click();
-            wait.Until(ExpectedConditions.StalenessOf(driver.FindElement(By.XPath("//a[@class='diagram__sessions__item js-diagram__sessions__item']/div[1]"))));
+            wait.Until(d=>d.FindElement(By.XPath("//a[@class='diagram__sessions__item js-diagram__sessions__item']/div[1]")).GetCssValue("color")== "rgba(80, 122, 173, 1)");
 
         }
 
