@@ -50,22 +50,24 @@ namespace test_tickets
         }
 
         /// <summary>
-        /// Выбрать указанное количество мест и записать в коллекцию
+        /// Выбрать указанное количество мест и записать в коллекцию название фильма, информацию о сеансе и выбранные места
         /// </summary>
         /// <param name="seat"></param>
         /// <returns></returns>
         public List<string> SelectSeat(int seat)
         {
+            //дождаться появления элементов мест и положить их в коллекцию
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(By.XPath("//div[contains(@class,'hall__place')]")));
             List<IWebElement> listPeriods = driver.FindElements(By.XPath("//div[contains(@class,'hall__place')]")).ToList();
 
+            //дождаться появления надписи с названием фильма и с информацией о сеансе
             wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//div[@class='ticket-box__title']")));
             wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//div[@class='ticket-box__info']")));
 
             List<string> seats = new();
-            seats.Add(driver.FindElement(By.XPath("//div[@class='ticket-box__title']")).Text);
-            seats.Add(driver.FindElement(By.XPath("//div[@class='ticket-box__info']")).Text);
-            int count = listPeriods.Count;
+            seats.Add(driver.FindElement(By.XPath("//div[@class='ticket-box__title']")).Text);//записать название фильма
+            seats.Add(driver.FindElement(By.XPath("//div[@class='ticket-box__info']")).Text);//записать инфорамацию о сеансе
+            
             int i = 0; int selected = 0;
             while (i < listPeriods.Count & selected < seat)
             {
@@ -73,10 +75,8 @@ namespace test_tickets
                 {
                     listPeriods.ElementAt(i).Click(); 
                     selected++;
-                    //"rgba(226, 33, 37, 0.07)"
-                    //wait.Until(d => d.FindElements(By.XPath("//div[@data-section-name='Партер']")).ElementAt(i).GetCssValue("background-color") == "rgba(226, 33, 37, 0.07)");
                     
-                    seats.Add(listPeriods.ElementAt(i).GetAttribute("title"));
+                    seats.Add(listPeriods.ElementAt(i).GetAttribute("title")); // записать выбранное место
                 }
                 i++;
             }
@@ -84,6 +84,10 @@ namespace test_tickets
 
             return seats;
         }
+
+        /// <summary>
+        /// Выбрать завтра и дождаться когда надпись станет красной
+        /// </summary>
         public void SelectTomorow()
         {
             driver.FindElement(By.XPath("//a[contains(.,'Завтра')]")).Click();
