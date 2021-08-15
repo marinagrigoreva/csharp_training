@@ -63,7 +63,7 @@ namespace test_tickets
         ///  https://selenium.dev/selenium/docs/api/dotnet/html/T_OpenQA_Selenium_Support_Events_EventFiringWebDriver.htm  Events
         /// </summary>
         /// <param name="driver"></param>
-        public static void Logging(MyListener driver)
+        public void Logging(MyListener driver)
         {
 
             driver.FindingElement += (sender, e) => { Console.WriteLine("Начат поиск элемента : " + e.FindMethod); WriteLine("Начат поиск элемента : " + e.FindMethod); };
@@ -82,8 +82,9 @@ namespace test_tickets
 
         }
 
-        public static void WriteLine(string message)
+        public void WriteLine(string message)
         {
+            CreateTempDirectory("logs");
             string filename = "//logs/" + TestContext.CurrentContext.Test.Name + "_LOGS_" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
             using (StreamWriter sw = new StreamWriter(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + filename, true))
             {
@@ -109,18 +110,18 @@ namespace test_tickets
         {
             try
             {
-                CreateTempDirectory();
+                CreateTempDirectory("screens");
                 CreateFilename();
                 ((ITakesScreenshot)driver).GetScreenshot().SaveAsFile(filename, ScreenshotImageFormat.Png);
             }
             catch (Exception) { }
         }
 
-        public void CreateTempDirectory()
+        public void CreateTempDirectory(string name)
         {
             try
             {
-                saveLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//screens/";
+                saveLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "//"+name+"/";
                 bool dirExists = System.IO.Directory.Exists(saveLocation);
                 if (!dirExists)
                     System.IO.Directory.CreateDirectory(saveLocation);
